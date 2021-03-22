@@ -11479,6 +11479,12 @@ async function run() {
     const draft = core.getInput('draft', { required: false }) === 'true';
     const prerelease = core.getInput('prerelease', { required: false }) === 'true';
     const commitish = core.getInput('commitish', { required: false }) || context.sha;
+    const tagMeta = github.git.getTag({
+      owner: currentOwner,
+      repo: currentRepo,
+      commit_sha: context.sha,
+    });
+    const message = tagMeta.message;
 
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
@@ -11500,7 +11506,7 @@ async function run() {
       repo,
       tag_name: tag,
       name: releaseName,
-      body: bodyFileContent || body,
+      body: bodyFileContent || body || message,
       draft,
       prerelease,
       target_commitish: commitish
