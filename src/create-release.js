@@ -47,7 +47,7 @@ async function run() {
       repo,
       tag_name: tag,
       name: releaseName,
-      body: bodyFileContent || body || message,
+      body: bodyFileContent || body,
       draft,
       prerelease,
       target_commitish: commitish
