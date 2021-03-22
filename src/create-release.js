@@ -20,12 +20,12 @@ async function run() {
     const draft = core.getInput('draft', { required: false }) === 'true';
     const prerelease = core.getInput('prerelease', { required: false }) === 'true';
     const commitish = core.getInput('commitish', { required: false }) || context.sha;
-    const tagMeta = github.git.getTag({
+    const tagMeta = await github.git.getTag({
       owner: currentOwner,
       repo: currentRepo,
       commit_sha: context.sha,
     });
-    const message = tagMeta.message;
+    const { message } = tagMeta.data;
 
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
